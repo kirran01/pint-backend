@@ -6,7 +6,6 @@ const {
   loginController,
 } = require("../controllers/auth.controller");
 const { isAuthenticated } = require("../middleware/jwt.middleware");
-
 router.post("/signup", signupController);
 router.post("/login", loginController);
 
