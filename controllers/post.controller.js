@@ -7,6 +7,7 @@ const createPostController = (req, res) => {
     owner,
     image,
     description,
+    link,
   })
     .then((createdPost) => {
       res.send(createdPost);
