@@ -1,7 +1,6 @@
 const Post = require("../models/Post.model");
 
 const createPostController = (req, res) => {
-  // res.send("post post route hit");
   const { image, description, link, owner, board, comments } = req.body;
   Post.create({
     owner,

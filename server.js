@@ -6,6 +6,7 @@ const cors = require("cors");
 const authRouter = require("./routes/auth.routes");
 const postRouter = require("./routes/post.routes");
 const boardRouter = require("./routes/board.routes");
+const commentRouter = require("./routes/comment.routes");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/posts", postRouter);
 app.use("/boards", boardRouter);
+app.use("/comments", commentRouter);
 
 app.get("/", (req, res) => {
   res.send("pint server up");
