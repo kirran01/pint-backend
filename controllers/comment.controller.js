@@ -1,5 +1,14 @@
 const Comment = require("../models/Comment.model");
 
+const getCommentsController = (req, res) => {
+  Comment.find()
+    .then((foundComments) => {
+      res.send(foundComments);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
 const createCommentController = (req, res) => {
   const { day, comment, owner } = req.body;
   Comment.create({
@@ -41,4 +50,5 @@ module.exports = {
   createCommentController,
   deleteCommentController,
   updateCommentController,
+  getCommentsController,
 };
