@@ -27,7 +27,6 @@ const signupController = (req, res) => {
 };
 
 const loginController = (req, res) => {
-  //   res.send("login route hit :D");
   const { username, password } = req.body;
   if (!req.body.username || !req.body.password) {
     return res.json({
