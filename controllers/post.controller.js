@@ -1,8 +1,9 @@
 const Post = require("../models/Post.model");
 
 const createPostController = (req, res) => {
-  const { image, description, link, owner, board, comments } = req.body;
+  const { image, description, link, owner,title, board, comments } = req.body;
   Post.create({
+    title,
     owner,
     image,
     description,
@@ -34,10 +35,11 @@ const getPostController = (req, res) => {
     });
 };
 const updatePostController = (req, res) => {
-  const { description, link, board } = req.body;
+  const { title,description, link, board } = req.body;
   Post.findByIdAndUpdate(
     req.params.id,
     {
+      title,
       description,
       link,
       board,
