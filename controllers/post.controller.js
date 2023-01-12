@@ -1,10 +1,10 @@
 const Post = require("../models/Post.model");
 
 const createPostController = (req, res) => {
-  const { image, description, link, owner,title, board, comments } = req.body;
+  const { image, description, link, title, board, comments } = req.body;
   Post.create({
     title,
-    owner,
+    owner: req.payload._id,
     image,
     description,
     link,
@@ -35,7 +35,7 @@ const getPostController = (req, res) => {
     });
 };
 const updatePostController = (req, res) => {
-  const { title,description, link, board } = req.body;
+  const { title, description, link, board } = req.body;
   Post.findByIdAndUpdate(
     req.params.id,
     {
@@ -53,10 +53,20 @@ const updatePostController = (req, res) => {
       res.send(err);
     });
 };
+const getPostByIdController = (req, res) => {
+  Post.findById(req.params.id)
+    .then((foundPost) => {
+      res.send(foundPost);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
 
 module.exports = {
   createPostController,
   deletePostController,
   getPostController,
   updatePostController,
+  getPostByIdController,
 };
