@@ -1,4 +1,5 @@
 const Comment = require("../models/Comment.model");
+const Post = require("../models/Post.model");
 
 const getCommentsController = (req, res) => {
   Comment.find()
@@ -10,17 +11,31 @@ const getCommentsController = (req, res) => {
     });
 };
 const createCommentController = (req, res) => {
-  const { day, comment, owner } = req.body;
-  Comment.create({
+  const { day, comment, owner, post } = req.body;
+  return Comment.create({
     day: Date.now(),
     comment,
+    // owner: req.payload._id,
     owner,
+    post: req.params.postid,
   })
     .then((createdComment) => {
-      res.send(createdComment);
+      return Post.findByIdAndUpdate(
+        createdComment.post,
+        {
+          $push: {
+            comments: createdComment._id,
+          },
+        },
+        { new: true }
+      )
+        .populate("comments")
+        .then((updatedPost) => {
+          res.send(updatedPost);
+        });
     })
     .catch((err) => {
-      res.send(er);
+      res.send(err);
     });
 };
 const deleteCommentController = (req, res) => {
