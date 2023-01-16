@@ -27,7 +27,13 @@ const deletePostController = (req, res) => {
 };
 const getPostController = (req, res) => {
   Post.find()
-  .populate('comments')
+    .populate({
+      path: "comments",
+      populate: {
+        path: "owner",
+        model: "User",
+      },
+    })
     .then((foundPosts) => {
       res.send(foundPosts);
     })
