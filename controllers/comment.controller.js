@@ -15,8 +15,7 @@ const createCommentController = (req, res) => {
   return Comment.create({
     day: Date.now(),
     comment,
-    // owner: req.payload._id,
-    owner,
+    owner: req.payload._id,
     post: req.params.postid,
   })
     .then((createdComment) => {

@@ -6,8 +6,9 @@ const {
   updateCommentController,
   getCommentsController,
 } = require("../controllers/comment.controller");
+const { isAuthenticated } = require("../middleware/jwt.middleware");
 
-router.post("/create-comment/:postid", createCommentController);
+router.post("/create-comment/:postid", isAuthenticated, createCommentController);
 router.delete("/delete/:id", deleteCommentController);
 router.put("/update-comment/:id", updateCommentController);
 router.get("/get-comments", getCommentsController);
