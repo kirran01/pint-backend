@@ -40,7 +40,7 @@ const createCommentController = (req, res) => {
 const deleteCommentController = (req, res) => {
   Comment.findByIdAndDelete(req.params.id)
     .then((deletedComment) => {
-      res.send("deleted");
+      res.send(deletedComment);
     })
     .catch((err) => {
       res.send(err);
