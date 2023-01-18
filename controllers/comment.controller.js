@@ -28,13 +28,13 @@ const createCommentController = (req, res) => {
         },
         { new: true }
       )
-      .populate({
-        path: "comments",
-        populate: {
-          path: "owner",
-          model: "User",
-        },
-      })
+        .populate({
+          path: "comments",
+          populate: {
+            path: "owner",
+            model: "User",
+          },
+        })
         .then((updatedPost) => {
           res.send(updatedPost);
         });
@@ -66,12 +66,30 @@ const deleteCommentController = (req, res) => {
 };
 const updateCommentController = (req, res) => {
   const { comment, day } = req.body;
-  Comment.findByIdAndUpdate(req.params.id, {
+  return Comment.findByIdAndUpdate(req.params.id, {
     comment,
     day: Date.now(),
   })
     .then((updatedComment) => {
-      res.send(updatedComment);
+      return Post.findByIdAndUpdate(
+        updatedComment.post,
+        {
+          $push: {
+            comments: updatedComment._id,
+          },
+        },
+        { new: true }
+      )
+        .populate({
+          path: "comments",
+          populate: {
+            path: "owner",
+            model: "User",
+          },
+        })
+        .then((updatedPost) => {
+          res.send(updatedPost);
+        });
     })
     .catch((err) => {
       res.send(err);
