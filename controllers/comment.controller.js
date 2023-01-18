@@ -28,7 +28,13 @@ const createCommentController = (req, res) => {
         },
         { new: true }
       )
-        .populate("comments")
+      .populate({
+        path: "comments",
+        populate: {
+          path: "owner",
+          model: "User",
+        },
+      })
         .then((updatedPost) => {
           res.send(updatedPost);
         });
@@ -38,9 +44,21 @@ const createCommentController = (req, res) => {
     });
 };
 const deleteCommentController = (req, res) => {
-  Comment.findByIdAndDelete(req.params.id)
+  return Comment.findByIdAndDelete(req.params.id)
     .then((deletedComment) => {
-      res.send(deletedComment);
+      return Post.findByIdAndUpdate(
+        deletedComment.post,
+        {
+          $pull: {
+            comments: deletedComment._id,
+          },
+        },
+        { new: true }
+      )
+        .populate("comments")
+        .then((updatedPost) => {
+          res.send(updatedPost);
+        });
     })
     .catch((err) => {
       res.send(err);

@@ -10,7 +10,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 router.post("/create-comment/:postid", isAuthenticated, createCommentController);
 router.delete("/delete/:id", deleteCommentController);
-router.put("/update-comment/:id", updateCommentController);
+router.put("/update-comment/:id", isAuthenticated, updateCommentController);
 router.get("/get-comments", getCommentsController);
 
 module.exports = router;
