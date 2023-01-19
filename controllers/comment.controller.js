@@ -1,5 +1,6 @@
 const Comment = require("../models/Comment.model");
 const Post = require("../models/Post.model");
+const mongoose = require("mongoose");
 
 const getCommentsController = (req, res) => {
   Comment.find()
@@ -46,11 +47,12 @@ const createCommentController = (req, res) => {
 const deleteCommentController = (req, res) => {
   return Comment.findByIdAndDelete(req.params.id)
     .then((deletedComment) => {
+      console.log(deletedComment);
       return Post.findByIdAndUpdate(
         deletedComment.post,
         {
           $pull: {
-            comments: deletedComment._id,
+            comments: mongoose.Types.ObjectId(deletedComment._id),
           },
         },
         { new: true }
@@ -71,15 +73,8 @@ const updateCommentController = (req, res) => {
     day: Date.now(),
   })
     .then((updatedComment) => {
-      return Post.findByIdAndUpdate(
-        updatedComment.post,
-        {
-          $push: {
-            comments: updatedComment._id,
-          },
-        },
-        { new: true }
-      )
+      return Post.findById(updatedComment.post)
+      //no need to push in new id when we are updating or update, just find and populate
         .populate({
           path: "comments",
           populate: {

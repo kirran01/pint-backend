@@ -62,6 +62,13 @@ const updatePostController = (req, res) => {
 };
 const getPostByIdController = (req, res) => {
   Post.findById(req.params.id)
+    .populate({
+      path: "comments",
+      populate: {
+        path: "owner",
+        model: "User",
+      },
+    })
     .then((foundPost) => {
       res.send(foundPost);
     })

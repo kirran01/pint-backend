@@ -16,7 +16,7 @@ const createBoardController = (req, res) => {
     });
 };
 const getBoardsController = (req, res) => {
-  res.send("get boards controller");
+//   res.send("get boards controller");
   Board.find()
     .then((foundBoards) => {
       res.send(foundBoards);
