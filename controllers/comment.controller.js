@@ -73,18 +73,20 @@ const updateCommentController = (req, res) => {
     day: Date.now(),
   })
     .then((updatedComment) => {
-      return Post.findById(updatedComment.post)
-      //no need to push in new id when we are updating or update, just find and populate
-        .populate({
-          path: "comments",
-          populate: {
-            path: "owner",
-            model: "User",
-          },
-        })
-        .then((updatedPost) => {
-          res.send(updatedPost);
-        });
+      return (
+        Post.findById(updatedComment.post)
+          //no need to push in new id when we are updating or update, just find and populate
+          .populate({
+            path: "comments",
+            populate: {
+              path: "owner",
+              model: "User",
+            },
+          })
+          .then((updatedPost) => {
+            res.send(updatedPost);
+          })
+      );
     })
     .catch((err) => {
       res.send(err);

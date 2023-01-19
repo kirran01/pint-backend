@@ -3,7 +3,7 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const signupController = (req, res) => {
-  const { email, password, username } = req.body;
+  const { email, password, username , profileImage} = req.body;
   if (!req.body.email || !req.body.password || !req.body.username) {
     return res.status(400).json({
       error: {
@@ -16,6 +16,7 @@ const signupController = (req, res) => {
       email,
       password: hashedPassword,
       username,
+      profileImage
     })
       .then((createdUser) => {
         res.send(createdUser);
@@ -55,6 +56,7 @@ const loginController = (req, res) => {
         _id: theUser._id,
         username: theUser.username,
         email: theUser.email,
+        profileImage:theUser.profileImage
       };
       console.log(payload, "<---payload");
       const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
