@@ -1,4 +1,5 @@
 const Post = require("../models/Post.model");
+const User = require("../models/User.model");
 
 const createPostController = (req, res) => {
   const { image, description, link, title, board, comments } = req.body;
@@ -76,6 +77,24 @@ const getPostByIdController = (req, res) => {
       res.send(err);
     });
 };
+const addToFavorites = (req, res) => {
+  User.findByIdAndUpdate(
+    req.payload._id,
+    {
+      $push: {
+        favorites: req.body.post,
+      },
+    },
+    { new: true }
+  )
+    .populate("favorites")
+    .then((updatedUser) => {
+      res.send(updatedUser);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
 
 module.exports = {
   createPostController,
@@ -83,4 +102,5 @@ module.exports = {
   getPostController,
   updatePostController,
   getPostByIdController,
+  addToFavorites,
 };

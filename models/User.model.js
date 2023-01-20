@@ -31,6 +31,12 @@ const userSchema = new Schema({
       ref: "Board",
     },
   ],
+  favorites:[
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Post",
+    },
+  ]
 });
 
 const User = mongoose.model("User", userSchema);
