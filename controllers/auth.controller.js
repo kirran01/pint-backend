@@ -40,6 +40,7 @@ const loginController = (req, res) => {
   User.findOne({
     username,
   })
+  .populate('favorites')
     .then((foundUser) => {
       if (!foundUser) {
         return Promise.reject("invalid credentials");
@@ -57,6 +58,7 @@ const loginController = (req, res) => {
         username: theUser.username,
         email: theUser.email,
         profileImage: theUser.profileImage,
+        favorites:theUser.favorites
       };
       console.log(payload, "<---payload");
       const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
