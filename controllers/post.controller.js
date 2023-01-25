@@ -96,6 +96,24 @@ const addToFavorites = (req, res) => {
     });
 };
 
+const deleteFromFavorites = (req, res) => {
+  User.findByIdAndUpdate(
+    req.payload._id,
+    {
+      $pull: {
+        favorites: req.body.post,
+      },
+    },
+    { new: true }
+  )
+    .then((updatedUser) => {
+      res.send(updatedUser);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
 module.exports = {
   createPostController,
   deletePostController,
@@ -103,4 +121,5 @@ module.exports = {
   updatePostController,
   getPostByIdController,
   addToFavorites,
+  deleteFromFavorites,
 };
