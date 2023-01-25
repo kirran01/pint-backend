@@ -28,6 +28,7 @@ const signupController = (req, res) => {
 };
 
 const loginController = (req, res) => {
+  console.log("login controller running");
   const { username, password } = req.body;
   if (!req.body.username || !req.body.password) {
     return res.json({
@@ -40,7 +41,7 @@ const loginController = (req, res) => {
   User.findOne({
     username,
   })
-  .populate('favorites')
+    .populate("favorites")
     .then((foundUser) => {
       if (!foundUser) {
         return Promise.reject("invalid credentials");
@@ -55,10 +56,6 @@ const loginController = (req, res) => {
       }
       const payload = {
         _id: theUser._id,
-        username: theUser.username,
-        email: theUser.email,
-        profileImage: theUser.profileImage,
-        favorites:theUser.favorites
       };
       console.log(payload, "<---payload");
       const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
@@ -76,31 +73,30 @@ const loginController = (req, res) => {
 };
 
 const editUserController = (req, res) => {
-  User.findByIdAndUpdate(
-    req.payload._id,
-    {
-      profileImage: req.body.profileImage,
-      username: req.body.username,
-      email: req.body.email,
-    },
-    { new: true }
-  )
+  User.findByIdAndUpdate(req.payload._id, req.body, { new: true })
     .then((updatedUser) => {
-      const payload = {
-        _id: updatedUser._id,
-        username: updatedUser.name,
-        email: updatedUser.email,
-        profileImage: updatedUser.profileImage,
-      };
-      const authToken = jwt.sign(payload, process.env.TOKEN_SECRET, {
-        algorithm: "HS256",
-        expiresIn: "72h",
-      });
-      res.send({ updatedUser: updatedUser, updatedToken: authToken });
+      res.send({ updatedUser });
     })
     .catch((err) => {
       res.send(err);
     });
 };
 
-module.exports = { signupController, loginController, editUserController };
+const getUserInfoController = (req, res) => {
+  const payloadId = req.payload._id;
+  User.findById(payloadId)
+    .populate("favorites posts")
+    .then((user) => {
+      res.send(user);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
+module.exports = {
+  signupController,
+  loginController,
+  editUserController,
+  getUserInfoController,
+};

@@ -1,5 +1,6 @@
 const { expressjwt: jwt } = require("express-jwt");
 
+//decrypts the token, and eventually becomes the payload
 const isAuthenticated = jwt({
   secret: process.env.TOKEN_SECRET,
   algorithms: ["HS256"],
