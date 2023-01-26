@@ -101,7 +101,7 @@ const deleteFromFavorites = (req, res) => {
     req.payload._id,
     {
       $pull: {
-        favorites: req.body.post,
+        favorites: req.params.id,
       },
     },
     { new: true }

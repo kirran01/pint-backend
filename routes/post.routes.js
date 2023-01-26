@@ -14,7 +14,7 @@ const { isAuthenticated } = require("../middleware/jwt.middleware");
 
 router.post("/create-post", isAuthenticated, createPostController);
 router.delete("/delete-post/:id", deletePostController);
-router.delete("/delete-favorite", isAuthenticated, deleteFromFavorites);
+router.delete("/delete-favorite/:id", isAuthenticated, deleteFromFavorites);
 router.put("/add-favorite", isAuthenticated, addToFavorites);
 router.put("/update-post/:id", updatePostController);
 router.get("/all", getPostController);
