@@ -94,9 +94,20 @@ const getUserInfoController = (req, res) => {
     });
 };
 
+const deleteUserController = (req, res) => {
+  User.findByIdAndDelete(req.params.id)
+    .then((deletedUser) => {
+      res.send(deletedUser);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
 module.exports = {
   signupController,
   loginController,
   editUserController,
   getUserInfoController,
+  deleteUserController
 };
