@@ -1,4 +1,5 @@
 const User = require("../models/User.model");
+const Comment = require("../models/Comment.model");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
@@ -97,7 +98,12 @@ const getUserInfoController = (req, res) => {
 const deleteUserController = (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then((deletedUser) => {
-      res.send(deletedUser);
+      return Comment.deleteMany({ owner: deletedUser._id })
+      .then(
+        (deletedComments) => {
+          res.send(deletedComments);
+        }
+      );
     })
     .catch((err) => {
       res.send(err);
@@ -109,5 +115,5 @@ module.exports = {
   loginController,
   editUserController,
   getUserInfoController,
-  deleteUserController
+  deleteUserController,
 };
