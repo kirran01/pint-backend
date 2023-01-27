@@ -70,6 +70,7 @@ const getPostByIdController = (req, res) => {
         model: "User",
       },
     })
+    .populate("owner")
     .then((foundPost) => {
       res.send(foundPost);
     })

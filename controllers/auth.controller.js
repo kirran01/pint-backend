@@ -29,6 +29,16 @@ const signupController = (req, res) => {
   });
 };
 
+const getUserById = (req, res) => {
+  User.findById(req.params.id)
+    .then((foundUser) => {
+      res.send(foundUser);
+    })
+    .catch((err) => {
+      res.send(err);
+    });
+};
+
 const loginController = (req, res) => {
   console.log("login controller running");
   const { username, password } = req.body;
@@ -118,4 +128,5 @@ module.exports = {
   editUserController,
   getUserInfoController,
   deleteUserController,
+  getUserById,
 };
