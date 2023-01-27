@@ -107,6 +107,7 @@ const deleteFromFavorites = (req, res) => {
     },
     { new: true }
   )
+    .populate("favorites")
     .then((updatedUser) => {
       res.send(updatedUser);
     })
