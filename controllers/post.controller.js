@@ -96,7 +96,6 @@ const addToFavorites = (req, res) => {
       res.send(err);
     });
 };
-
 const deleteFromFavorites = (req, res) => {
   User.findByIdAndUpdate(
     req.payload._id,

@@ -8,9 +8,7 @@ const signupController = (req, res) => {
   const { email, password, username, profileImage } = req.body;
   if (!req.body.email || !req.body.password || !req.body.username) {
     return res.status(400).json({
-      error: {
         message: "field(s) are missing",
-      },
     });
   }
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
@@ -19,13 +17,11 @@ const signupController = (req, res) => {
     return;
   }
   
-  // Use regex to validate the password format
   const passwordRegex = /(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,}/;
   if (!passwordRegex.test(password)) {
     res.status(400).json({ message: 'Password must have at least 6 characters and contain at least one number, one lowercase and one uppercase letter.' });
     return;
   }
- 
   bcryptjs.hash(password, 10).then((hashedPassword) => {
     return User.create({
       email,
