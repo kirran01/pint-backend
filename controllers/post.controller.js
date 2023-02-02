@@ -18,14 +18,27 @@ const createPostController = (req, res) => {
     });
 };
 const deletePostController = (req, res) => {
-  Post.findByIdAndDelete(req.params.id)
-    .then((x) => {
-      res.send("deleted");
+  Post.findById(req.params.id)
+    .then((foundPost) => {
+      if (!foundPost) {
+        return res.send("Post not found");
+      }
+      if (foundPost.owner.toString() !== req.payload._id.toString()) {
+        return res.send("Unauthorized access");
+      }
+      return Post.findByIdAndDelete(req.params.id)
+        .then((deletedPost) => {
+          res.send(deletedPost);
+        })
+        .catch((err) => {
+          res.send(err);
+        });
     })
     .catch((err) => {
       res.send(err);
     });
 };
+
 const getPostController = (req, res) => {
   Post.find()
     .populate({
