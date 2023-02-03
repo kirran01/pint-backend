@@ -24,7 +24,7 @@ const deletePostController = (req, res) => {
         return res.send("Post not found");
       }
       if (foundPost.owner.toString() !== req.payload._id.toString()) {
-        return res.send("Unauthorized access");
+        return res.send("Unauthorized");
       }
       return Post.findByIdAndDelete(req.params.id)
         .then((deletedPost) => {
@@ -38,7 +38,6 @@ const deletePostController = (req, res) => {
       res.send(err);
     });
 };
-
 const getPostController = (req, res) => {
   Post.find()
     .populate({
