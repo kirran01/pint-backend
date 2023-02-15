@@ -37,7 +37,6 @@ const signupController = (req, res) => {
       });
   });
 };
-
 const getUserById = (req, res) => {
   User.findById(req.params.id)
     .then((foundUser) => {
@@ -47,7 +46,6 @@ const getUserById = (req, res) => {
       res.send(err);
     });
 };
-
 const loginController = (req, res) => {
   console.log("login controller running");
   const { username, password } = req.body;
@@ -92,7 +90,6 @@ const loginController = (req, res) => {
       res.send(err);
     });
 };
-
 const editUserController = (req, res) => {
   User.findByIdAndUpdate(req.payload._id, req.body, { new: true })
     .then((updatedUser) => {
@@ -102,7 +99,6 @@ const editUserController = (req, res) => {
       res.send(err);
     });
 };
-
 const getUserInfoController = (req, res) => {
   const payloadId = req.payload._id;
   User.findById(payloadId)
@@ -114,7 +110,6 @@ const getUserInfoController = (req, res) => {
       res.send(err);
     });
 };
-
 const deleteUserController = (req, res) => {
   User.findByIdAndDelete(req.params.id)
     .then((deletedUser) => {
@@ -130,7 +125,6 @@ const deleteUserController = (req, res) => {
       res.send(err);
     });
 };
-
 module.exports = {
   signupController,
   loginController,

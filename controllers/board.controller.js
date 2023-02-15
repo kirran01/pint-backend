@@ -2,8 +2,6 @@ const Board = require("../models/Board.model");
 const Comment = require("../models/Comment.model");
 const Post = require("../models/Post.model");
 const User = require("../models/User.model");
-const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 
 const createBoardController = (req, res) => {
   const { name, description, owner, posts } = req.body;
